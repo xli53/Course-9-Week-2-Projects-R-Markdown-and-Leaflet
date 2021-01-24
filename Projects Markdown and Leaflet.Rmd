@@ -1,0 +1,47 @@
+---
+title: "Course 9 Week 2 Project Markdown and Leaflet"
+author: "Xiao"
+date: "1/24/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Porblem description
+Create a web page using R Markdown that features a map created with Leaflet. 
+
+## Load packages
+```{r}
+install.packages("leaflet")
+library(leaflet)
+library(htmltools)
+```
+
+## Load dataset
+Data comes from: https://www.kaggle.com/mmayur/the-worlds-50-best-restaurants\
+```{r}
+datamap <- read.csv(file = "The Worlds 50 Best Restaurants 2018.csv", header = TRUE, sep = ",")
+```
+
+```{r}
+my_map <- datamap %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(popup=paste
+             ("<br>Country: ", 
+               htmlEscape(datamap$Country), 
+              "<br>City: ", 
+               htmlEscape(datamap$City), 
+              "<br>Restaurant: ", 
+               htmlEscape(datamap$Name),
+              "<br>Ranking: ",
+               formatC(datamap$Ranking, format = "d", big.mark = ",")
+             )
+  )
+
+my_map
+```
+
+
